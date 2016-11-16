@@ -61,6 +61,9 @@
 /** show only tiles, not values or percentage */
 @property (nonatomic) BOOL hideValues;
 
+/** Current lineCap for shape */
+@property (nonatomic) CGLineCap lineCap;
+
 - (void)strokeChart;
 
 - (void)recompute;

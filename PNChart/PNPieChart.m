@@ -69,6 +69,7 @@
     _shouldHighlightSectorOnTouch = YES;
     _enableMultipleSelection = NO;
     _hideValues = NO;
+    _lineCap = kCGLineCapButt;
     
     [super setupDefaultValues];
     [self loadDefault];
@@ -233,14 +234,40 @@
                                                       endAngle:M_PI_2 * 3
                                                      clockwise:YES];
     
+    if (_lineCap == kCGLineCapRound) {
+        CGFloat circleLength = radius * M_PI * 2;
+        CGFloat lineOffsetLength = borderWidth / 2;
+        CGFloat lineOffsetPercentage = lineOffsetLength / circleLength;
+        
+        circle.strokeStart = startPercentage + lineOffsetPercentage;
+        circle.strokeEnd   = endPercentage - lineOffsetPercentage;
+    }
+    else {
+        circle.strokeStart = startPercentage;
+        circle.strokeEnd   = endPercentage;
+    }
+    
     circle.fillColor   = fillColor.CGColor;
     circle.strokeColor = borderColor.CGColor;
-    circle.strokeStart = startPercentage;
-    circle.strokeEnd   = endPercentage;
     circle.lineWidth   = borderWidth;
     circle.path        = path.CGPath;
+    circle.lineCap     = [self lineCapStringFromCGLineCap:_lineCap];
     
     return circle;
+}
+
+- (NSString*)lineCapStringFromCGLineCap:(CGLineCap)lineCap
+{
+    switch (lineCap) {
+        case kCGLineCapSquare:
+            return @"square";
+            break;
+        case kCGLineCapRound:
+            return @"round";
+        default:
+            return @"butt";
+            break;
+    }
 }
 
 - (void)maskChart{

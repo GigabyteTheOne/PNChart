@@ -178,6 +178,7 @@
         self.pieChart.descriptionTextShadowColor = [UIColor clearColor];
         self.pieChart.showAbsoluteValues = NO;
         self.pieChart.showOnlyValues = NO;
+        self.pieChart.lineCap = kCGLineCapRound;
         [self.pieChart strokeChart];
         
         
